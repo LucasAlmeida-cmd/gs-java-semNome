@@ -1,7 +1,7 @@
 package com.example.gs_java.config.security;
 
-import com.example.gs_java.model.Usuario;
-import com.example.gs_java.repository.UsuarioRepository;
+import com.example.gs_java.model.User;
+import com.example.gs_java.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,28 +10,28 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UsuarioRepository usuarioRepository;
+    private final UserRepository userRepository;
 
-    public CustomUserDetailsService(UsuarioRepository usuarioRepository) {
-        this.usuarioRepository = usuarioRepository;
+    public CustomUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println("🔍 Tentando logar com email: " + username);
 
-        Usuario usuario = usuarioRepository.findByEmail(username.trim().toLowerCase())
+        User user = userRepository.findByEmail(username.trim().toLowerCase())
                 .orElseThrow(() -> {
                     System.out.println("❌ Usuário não encontrado: " + username);
                     return new UsernameNotFoundException("Usuário não encontrado: " + username);
                 });
 
-        System.out.println("✅ Usuário encontrado: " + usuario.getEmail());
+        System.out.println("✅ Usuário encontrado: " + user.getEmail());
 
         return org.springframework.security.core.userdetails.User.builder()
-                .username(usuario.getEmail())
-                .password(usuario.getPassword())
-                .roles(usuario.getRole().name())
+                .username(user.getEmail())
+                .password(user.getPassword())
+                .roles(user.getRole().name())
                 .build();
     }
 }
