@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - GS Java</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<main class="login-container">
+
+    <form th:action="@{/login}" method="post" class="login-form">
+        <h1>Acessar Sistema</h1>
+
+        <div th:if="${param.error}" class="error-message">
+            <span>Usuário ou senha inválidos.</span>
+        </div>
+
+        <div th:if="${param.logout}" class="success-message">
+            <span>Você foi desconectado.</span>
+        </div>
+
+        <div class="form-group">
+            <label for="username">Email</label>
+            <input type="email" id="username" name="username" placeholder="seuemail@exemplo.com" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Senha</label>
+            <input type="password" id="password" name="password" placeholder="Sua senha" required>
+        </div>
+
+        <button type="submit" class="btn-login">Entrar</button>
+
+        <div class="register-link">
+            <p>Não tem uma conta? <a th:href="@{/usuarios/novo}">Cadastre-se</a></p>
+        </div>
+    </form>
+
+</main>
+
+</body>
+</html>

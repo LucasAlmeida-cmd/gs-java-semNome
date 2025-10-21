@@ -5,6 +5,7 @@ import com.example.gs_java.model.Administrador;
 import com.example.gs_java.model.Role;
 import com.example.gs_java.repository.AdministradorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,9 +16,12 @@ public class AdministradorService {
 
     @Autowired
     AdministradorRepository administradorRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public Administrador adicionar(Administrador administrador){
         administrador.setRole(Role.ADMIN);
+        administrador.setPassword(passwordEncoder.encode(administrador.getPassword()));
         return administradorRepository.save(administrador);
     }
 
@@ -38,6 +42,7 @@ public class AdministradorService {
         administrador.setNomeUser(administradorAtualizado.getNomeUser());
         administrador.setDataAniversario(administradorAtualizado.getDataAniversario());
         administrador.setEmail(administradorAtualizado.getEmail());
+        administrador.setPassword(passwordEncoder.encode(administrador.getPassword()));
         administradorRepository.save(administrador);
     }
 }

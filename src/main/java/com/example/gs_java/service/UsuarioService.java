@@ -6,19 +6,22 @@ import com.example.gs_java.model.Usuario;
 import com.example.gs_java.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UsuarioService {
 
     @Autowired
     UsuarioRepository usuarioRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public Usuario adicionar(Usuario usuario){
         usuario.setRole(Role.USUARIO);
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         return usuarioRepository.save(usuario);
     }
 
@@ -38,7 +41,7 @@ public class UsuarioService {
         usuarioBanco.setRole(Role.USUARIO);
         usuarioBanco.setNomeUser(usuario.getNomeUser());
         usuarioBanco.setEmail(usuario.getEmail());
-        usuarioBanco.setPassword(usuario.getPassword());
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         usuarioBanco.setCpfUser(usuario.getCpfUser());
         usuarioBanco.setDataAniversario(usuario.getDataAniversario());
         usuarioRepository.save(usuarioBanco);
