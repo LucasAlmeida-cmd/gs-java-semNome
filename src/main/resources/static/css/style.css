@@ -119,3 +119,169 @@ body {
     margin-bottom: 1.5rem;
     font-size: 0.9rem;
 }
+
+/* O layout principal que divide a tela */
+.dashboard-layout {
+    display: flex;
+    width: 100%;
+    height: 100vh; /* Altura total da tela */
+    overflow: hidden; /* Impede scroll na página inteira */
+}
+
+/* --- Barra Lateral (Sidebar) --- */
+.sidebar {
+    width: 260px;
+    flex-shrink: 0; /* Impede que a sidebar encolha */
+    background: #232a34; /* Um azul/cinza escuro */
+    color: #e0e0e0;
+    display: flex;
+    flex-direction: column; /* Organiza itens verticalmente */
+    padding: 1.5rem 0;
+}
+
+.sidebar h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.sidebar-nav li a {
+    display: flex;
+    align-items: center;
+    padding: 0.9rem 1.5rem;
+    color: #e0e0e0;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.3s, color 0.3s;
+    border-left: 4px solid transparent; /* Borda para indicar item ativo */
+}
+
+.sidebar-nav li .icon {
+    margin-right: 1rem;
+    font-size: 1.2rem;
+}
+
+.sidebar-nav li a:hover {
+    background-color: #2c3542;
+    color: #fff;
+}
+
+/* Estilo do item de menu ativo */
+.sidebar-nav li.active > a {
+    background-color: #313c4a;
+    color: #00aaff; /* Um azul vibrante */
+    border-left-color: #00aaff;
+}
+
+/* --- Botão de Sair (Logout) --- */
+.logout-form {
+    margin-top: auto; /* Empurra o botão de sair para o final */
+    padding: 0 1.5rem;
+}
+
+.logout-form button {
+    width: 100%;
+    background: #d9534f; /* Vermelho para 'sair' */
+    color: white;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logout-form button .icon {
+    margin-right: 0.5rem;
+}
+
+.logout-form button:hover {
+    background: #c9302c;
+}
+
+
+/* --- Conteúdo Principal (Main Content) --- */
+.main-content {
+    flex-grow: 1; /* Ocupa todo o espaço restante */
+    background-color: #f4f7f6; /* Cinza bem claro */
+    padding: 2.5rem;
+    overflow-y: auto; /* Permite scroll APENAS no conteúdo */
+}
+
+.main-header {
+    margin-bottom: 2rem;
+}
+
+.main-header h1 {
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.welcome-message {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+/* --- Cards do Dashboard --- */
+.dashboard-cards {
+    display: grid;
+    /* Grid responsivo:
+      Cria colunas de no mínimo 280px.
+      Se couber mais, elas se ajustam.
+    */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem; /* Espaço entre os cards */
+}
+
+.card {
+    background: #ffffff;
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.card h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 0.5rem;
+}
+
+.card p {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 1rem;
+}
+
+.card a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.card a:hover {
+    text-decoration: underline;
+}
