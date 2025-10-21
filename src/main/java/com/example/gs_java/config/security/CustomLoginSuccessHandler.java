@@ -22,10 +22,10 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
         if (authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
             response.sendRedirect("/admin/dashboard");
-        } else if (authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_MOTOQUEIRO"))) {
+        } else if (authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_USUARIO"))) {
             response.sendRedirect("/usuario/dashboard");
         } else {
-            response.sendRedirect("/index");
+            response.sendRedirect("/login");
         }
     }
 }

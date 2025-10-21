@@ -55,7 +55,7 @@ public class SecurityConfig {
                             .permitAll();
                 })
                 .authorizeHttpRequests(registry -> {
-                    registry.requestMatchers("/css/**", "/login").permitAll();
+                    registry.requestMatchers("/css/**", "/login", "/usuarios/novo", "/usuarios/salvar").permitAll();
 
 //                    registry.requestMatchers("/motoqueiro/dashboard", "/motoqueiro/editar/fechada/**")
 //                            .hasRole("MOTOQUEIRO");

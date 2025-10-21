@@ -25,7 +25,7 @@ public class ContentController {
     public String adminDashboard(Model model, Principal principal) {
         String admin = principal.getName();
         model.addAttribute("nomeAdmin", admin);
-        return "dashbord-admin";
+        return "dashboard-admin";
     }
 
     @GetMapping("/usuario/dashboard")
@@ -34,7 +34,7 @@ public class ContentController {
         if (usuarioOptional.isPresent()) {
             Usuario usuario = usuarioOptional.get();
             model.addAttribute("usuario", usuario);
-            return "dashbord-usuario";
+            return "dashboard-usuario";
         } else {
             return "redirect:/login?error=userNotFound";
         }
