@@ -5,9 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -23,11 +20,6 @@ public abstract class User {
 
     @Column(name = "nome_usuario", nullable = false, length = 80)
     private String nomeUser;
-
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
-    @Column(name = "data_aniversario_usuario", nullable = false)
-    private LocalDate dataAniversario;
 
 
     @Column(name = "senha_usuario", nullable = false, length = 100)

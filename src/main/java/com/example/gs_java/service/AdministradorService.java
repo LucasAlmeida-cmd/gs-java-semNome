@@ -40,7 +40,6 @@ public class AdministradorService {
             throw new UsuarioNotFoundException(codigo);
         }
         administrador.setNomeUser(administradorAtualizado.getNomeUser());
-        administrador.setDataAniversario(administradorAtualizado.getDataAniversario());
         administrador.setEmail(administradorAtualizado.getEmail());
         administrador.setPassword(passwordEncoder.encode(administrador.getPassword()));
         administradorRepository.save(administrador);
