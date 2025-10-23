@@ -1,6 +1,6 @@
-﻿package com.example.gs_java.controller;
+package com.example.gs_java.controller;
 
-import com.example.gs_java.config.JwtTokenService;
+import com.example.gs_java.config.security.JwtTokenService;
 import com.example.gs_java.model.Usuario;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
