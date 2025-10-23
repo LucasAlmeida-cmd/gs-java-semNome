@@ -27,3 +27,8 @@ spring:
         dialect: org.hibernate.dialect.OracleDialect
         format_sql: true
     show-sql: true
+
+api:
+  security:
+    token:
+      secret: super-secret-key-para-meu-ecommerce-pessoal-ninguem-pode-saber
