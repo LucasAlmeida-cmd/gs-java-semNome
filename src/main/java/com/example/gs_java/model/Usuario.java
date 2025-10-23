@@ -1,12 +1,10 @@
 package com.example.gs_java.model;
 
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.LocalDate;
 
 @Entity
@@ -18,9 +16,9 @@ import java.time.LocalDate;
 @PrimaryKeyJoinColumn(name = "id_usuario", referencedColumnName = "id")
 public class Usuario extends User{
 
-
     @Column(name = "cpf_usuario", nullable = false, length = 14, unique = true)
     private String cpfUser;
+
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Column(name = "data_aniversario_usuario", nullable = false)
@@ -35,4 +33,5 @@ public class Usuario extends User{
     public void setCpfUser(String cpfUser) {
         this.cpfUser = VerificaCPF.validarEFormatar(cpfUser);
     }
+
 }
