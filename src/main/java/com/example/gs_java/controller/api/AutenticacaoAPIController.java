@@ -2,8 +2,10 @@ package com.example.gs_java.controller.api;
 
 
 import com.example.gs_java.config.security.JwtTokenService;
+import com.example.gs_java.dtos.AuthResponseDTO;
 import com.example.gs_java.dtos.LoginRequestDTO;
 import com.example.gs_java.dtos.TokenResponseDTO;
+import com.example.gs_java.dtos.UserDTO;
 import com.example.gs_java.model.User;
 import com.example.gs_java.model.Usuario;
 import jakarta.validation.Valid;
@@ -34,7 +36,10 @@ public class AutenticacaoAPIController {
     public ResponseEntity efetuarLogin(@RequestBody @Valid LoginRequestDTO dados) {
         var authenticationToken = new UsernamePasswordAuthenticationToken(dados.getEmail(), dados.getSenha());
         var authentication = manager.authenticate(authenticationToken);
-        var tokenJWT = tokenService.gerarToken((User) authentication.getPrincipal());
-        return ResponseEntity.ok(new TokenResponseDTO(tokenJWT));
+        var userPrincipal = (User) authentication.getPrincipal();
+        var tokenJWT = tokenService.gerarToken(userPrincipal);
+        var userDTO = new UserDTO(userPrincipal);
+        var authResponse = new AuthResponseDTO(tokenJWT, userDTO);
+        return ResponseEntity.ok(authResponse);
     }
 }
