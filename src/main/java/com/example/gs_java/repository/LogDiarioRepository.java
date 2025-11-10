@@ -6,7 +6,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface LogDiarioRepository extends JpaRepository<LogDiario, Long>{
     Page<LogDiario> findAllByUsuario(Usuario usuarioLogado, Pageable pageable);
     Page<LogDiario> findAllByUsuario_Email(String email, Pageable pageable);
+    List<LogDiario> findByUsuarioAndProcessadoParaInsightFalse(Usuario usuario);
 }

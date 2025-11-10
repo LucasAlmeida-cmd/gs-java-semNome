@@ -28,7 +28,19 @@ spring:
         format_sql: true
     show-sql: true
 
+  ai:
+    openai:
+      api-key:
+      model: gpt-3.5-turbo
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
 api:
   security:
     token:
       secret: super-secret-key-para-meu-ecommerce-pessoal-ninguem-pode-saber
+

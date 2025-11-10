@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Editar Usuário</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+<body class="dashboard-layout">
+
+<aside class="sidebar">
+    <h2>GS Java</h2>
+    <nav class="sidebar-nav">
+        <ul>
+            <li>
+                <a th:href="@{/dashboard/admin}">
+                    <span class="icon">&#128100;</span> Dashboard
+                </a>
+            </li>
+
+            <li class="active" sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/admin/usuarios}">
+                    <span class="icon">&#128101;</span> Gerenciar Usuários
+                </a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/admin/relatorios}">
+                    <span class="icon">&#128202;</span> Logs de Clientes
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/dashboard/usuario}">
+                    <span class="icon">&#128279;</span> Ver (Usuário)
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <form class="logout-form" th:action="@{/logout}" method="post">
+        <button type="submit">
+            <span class="icon">&#128682;</span> Sair
+        </button>
+    </form>
+</aside>
+
+<main class="main-content">
+    <header class="main-header">
+        <h1>Editar Usuário</h1>
+        <p class="welcome-message">Altere os dados do usuário abaixo.</p>
+    </header>
+
+    <form th:action="@{/usuarios/editar/{id}(id=${usuario.id})}"
+          th:object="${usuario}" method="post"> <input type="hidden" name="_method" value="PUT" />
+
+        <input type="hidden" th:field="*{id}" />
+
+        <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" th:field="*{nomeUser}" />
+            <span class="error-text" th:if="${#fields.hasErrors('nomeUser')}" th:errors="*{nomeUser}"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" th:field="*{email}" />
+            <span class="error-text" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Senha</label>
+            <input type="password" id="password" th:field="*{password}" />
+            <span class="error-text" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Data de Nascimento</label>
+            <input type="date" th:field="*{dataAniversario}" required
+                   th:errorclass="input-error">
+            <span class="error-text" th:if="${#fields.hasErrors('dataAniversario')}" th:errors="*{dataAniversario}"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="role">Permissão</label>
+            <select id="role" th:field="*{role}" class="form-group input" style="padding: 0.8rem 1rem; font-size: 1rem; border: 1px solid #ddd; border-radius: 8px;">
+                <option value="ADMIN">ADMIN</option>
+                <option value="USER">USER</option>
+            </select>
+            <span class="error-text" th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></span>
+        </div>
+
+        <button type="submit" class="btn-login">Salvar Alterações</button>
+    </form>
+
+</main>
+
+</body>
+</html>

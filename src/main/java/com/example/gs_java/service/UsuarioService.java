@@ -30,27 +30,35 @@ public class UsuarioService {
     public List<Usuario> listarTodos(){return usuarioRepository.findAll();}
 
     @Transactional
-    public void remover(String cpf){
-        Usuario usuario = usuarioRepository.findByCpfUser(cpf)
-                .orElseThrow(() -> new UsuarioNotFoundException(cpf));
+    public void remover(Long id){
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new UsuarioNotFoundException(id));
         usuarioRepository.delete(usuario);
     }
 
-    public void atualizar(String cpf, Usuario usuario){
-        Usuario usuarioBanco = usuarioRepository.findByCpfUser(cpf)
-                .orElseThrow(() -> new UsuarioNotFoundException(cpf));
+    public void atualizar(Long id, Usuario usuario){
+        Usuario usuarioBanco = usuarioRepository.findById(id)
+                .orElseThrow(() -> new UsuarioNotFoundException(id));
 
         usuarioBanco.setRole(Role.USUARIO);
         usuarioBanco.setNomeUser(usuario.getNomeUser());
         usuarioBanco.setEmail(usuario.getEmail().trim().toLowerCase());
         usuarioBanco.setPassword(passwordEncoder.encode(usuario.getPassword()));
 
-        usuarioBanco.setCpfUser(usuario.getCpfUser());
+        usuarioBanco.setCpfUser(usuarioBanco.getCpfUser());
         usuarioBanco.setDataAniversario(usuario.getDataAniversario());
         usuarioRepository.save(usuarioBanco);
     }
 
     public Optional<Usuario> buscarPorEmail(String name) {
         return usuarioRepository.findByEmail(name);
+    }
+
+    public List<Usuario> findAll() {
+        return usuarioRepository.findAll();
+    }
+
+    public Optional<Usuario> findById(Long id) {
+        return usuarioRepository.findById(id);
     }
 }

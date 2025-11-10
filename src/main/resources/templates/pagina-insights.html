@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gerar Insight</title>
+</head>
+<body>
+<h1>Seu Hub de Bem-Estar</h1>
+<p>Clique abaixo para analisar seus últimos registros e gerar um insight personalizado.</p>
+
+<form th:action="@{/insights/gerar}" method="post">
+    <button type-"submit">Gerar Meu Insight</button>
+</form>
+
+<hr/>
+
+<div th:if="${insightGerado}">
+    <h3>Seu Novo Insight:</h3>
+    <p th:text="${insightGerado}" style="font-style: italic;"></p>
+    <p th:text="${mensagemSucesso}" style="color:green;"></p>
+</div>
+
+<div th:if="${mensagemErro}">
+    <p th:text="${mensagemErro}" style="color:red;"></p>
+</div>
+
+</body>
+</html>

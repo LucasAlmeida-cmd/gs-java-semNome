@@ -123,6 +123,8 @@ public class SecurityConfig {
                                 "/usuarios/novo",
                                 "/usuarios/salvar"
                         ).permitAll()
+
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(httpForm -> {

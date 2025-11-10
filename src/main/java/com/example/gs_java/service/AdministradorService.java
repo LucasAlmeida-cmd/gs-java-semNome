@@ -1,5 +1,6 @@
 package com.example.gs_java.service;
 
+import com.example.gs_java.exceptions.AdminNotFoundException;
 import com.example.gs_java.exceptions.UsuarioNotFoundException;
 import com.example.gs_java.model.Administrador;
 import com.example.gs_java.model.Role;
@@ -37,7 +38,7 @@ public class AdministradorService {
     public void atualizarAdminPorCpf(String codigo, Administrador administradorAtualizado) {
         Administrador administrador = administradorRepository.findByCodigo(codigo);
         if (administrador == null) {
-            throw new UsuarioNotFoundException(codigo);
+            throw new AdminNotFoundException(codigo);
         }
         administrador.setNomeUser(administradorAtualizado.getNomeUser());
         administrador.setEmail(administradorAtualizado.getEmail());

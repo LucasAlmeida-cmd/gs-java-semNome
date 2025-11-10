@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Lista de Usuários</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+<body class="dashboard-layout">
+
+<aside class="sidebar">
+    <h2>GS Java</h2>
+    <nav class="sidebar-nav">
+        <ul>
+            <li>
+                <a th:href="@{/admin/dashboard}">
+                    <span class="icon">&#128100;</span> Dashboard
+                </a>
+            </li>
+
+            <li class="active" sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/admin/usuarios}">
+                    <span class="icon">&#128101;</span> Gerenciar Usuários
+                </a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/admin/relatorios}">
+                    <span class="icon">&#128202;</span> Logs de Clientes
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/dashboard/usuario}">
+                    <span class="icon">&#128279;</span> Ver (Usuário)
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <form class="logout-form" th:action="@{/logout}" method="post">
+        <button type="submit">
+            <span class="icon">&#128682;</span> Sair
+        </button>
+    </form>
+</aside>
+
+<main class="main-content">
+    <header class="main-header">
+        <h1>Lista de Usuários</h1>
+        <p class="welcome-message">Gerenciamento de todos os usuários cadastrados no sistema.</p>
+    </header>
+
+    <div th:if="${usuarios.isEmpty()}">
+        <p>Nenhum usuário cadastrado.</p>
+    </div>
+
+    <table class="content-table" th:if="${!usuarios.isEmpty()}">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email (Username)</th>
+            <th>Permissão (Role)</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${usuarios}">
+            <td th:text="${user.id}">1</td>
+            <td th:text="${user.nomeUser}">Nome do Usuário</td>
+            <td th:text="${user.email}">usuario@email.com</td>
+            <td th:text="${user.role}">ROLE_USER</td>
+            <td class="action-links">
+
+                <a th:href="@{'/usuarios/editar/' + ${user.id}}" class="edit">Editar</a>
+
+                <a th:href="@{/usuarios/excluir/{id}(id=${user.id})}" class="delete"
+                   onclick="return confirm('Tem certeza que deseja excluir este usuário?');">Excluir</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</main>
+
+</body>
+</html>
