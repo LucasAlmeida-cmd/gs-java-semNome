@@ -30,5 +30,5 @@ public class LogDiarioRequestDTO {
     private Boolean descansouMente;
 
     private String notas;
-    
+
 }
