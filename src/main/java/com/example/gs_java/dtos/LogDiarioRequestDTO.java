@@ -31,4 +31,6 @@ public class LogDiarioRequestDTO {
 
     private String notas;
 
+
+
 }
