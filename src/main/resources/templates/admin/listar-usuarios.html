@@ -32,7 +32,7 @@
             </li>
 
             <li>
-                <a th:href="@{/dashboard/usuario}">
+                <a th:href="@{/admin/meuPerfil}">
                     <span class="icon">&#128279;</span> Ver (Usuário)
                 </a>
             </li>
@@ -74,9 +74,9 @@
             <td th:text="${user.role}">ROLE_USER</td>
             <td class="action-links">
 
-                <a th:href="@{'/usuarios/editar/' + ${user.id}}" class="edit">Editar</a>
+                <a th:href="@{'/usuarios/admin/editar/' + ${user.id}}" class="edit">Editar</a>
 
-                <form th:action="@{/usuarios/excluir/{id}(id=${user.id})}" method="post" style="display: inline;">
+                <form th:action="@{/usuarios/admin/excluir/{id}(id=${user.id})}" method="post" style="display: inline;">
                     <input type="hidden" name="_method" value="DELETE" />
                     <button type="submit" class="delete-link"
                             onclick="return confirm('Tem certeza que deseja excluir este usuário?');">

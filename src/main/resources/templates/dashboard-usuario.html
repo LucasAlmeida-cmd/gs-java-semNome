@@ -17,7 +17,7 @@
         <nav class="sidebar-nav">
             <ul>
                 <li class="active">
-                    <a th:href="@{/dashboard/usuario}">
+                    <a th:href="@{/usuario/dashboard}">
                         <span class="icon">&#127968;</span> Minha Conta
                     </a>
                 </li>
@@ -27,16 +27,11 @@
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/meu-perfil}">
+                    <a th:href="@{/usuarios/ver-perfil}">
                         <span class="icon">&#128100;</span> Meu Perfil
                     </a>
                 </li>
 
-                <li sec:authorize="hasRole('ADMIN')">
-                    <a th:href="@{/dashboard/admin}">
-                        <span class="icon">&#128279;</span> Ver (Admin)
-                    </a>
-                </li>
             </ul>
         </nav>
 

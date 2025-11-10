@@ -1,9 +1,12 @@
 package com.example.gs_java.controller;
 
+import com.example.gs_java.model.Administrador;
+import com.example.gs_java.model.User;
 import com.example.gs_java.model.Usuario;
 import com.example.gs_java.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -36,21 +39,21 @@ public class UsuarioController {
     }
 
 
-    @GetMapping("/editar/{id}")
-    public String carregarFormularioEdicao(@PathVariable Long id, Model model) {
+    @GetMapping("/admin/editar/{id}")
+    public String carregarFormularioEdicaoAdmin(@PathVariable Long id, Model model) {
         Usuario usuario = usuarioService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("ID de usuário inválido:" + id));
         model.addAttribute("usuario", usuario);
         return "admin/editar-usuario";
     }
 
-    @PutMapping("/editar/{id}")
+    @PutMapping("/admin/editar/{id}")
     public String salvarEdicao(@PathVariable Long id, @ModelAttribute Usuario usuario) {
         usuarioService.atualizar(id,usuario);
         return "redirect:/admin/dashboard";
     }
 
-    @DeleteMapping("/excluir/{id}")
+    @DeleteMapping("/admin/excluir/{id}")
     public String deletarPorCpf(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             usuarioService.remover(id);
@@ -60,5 +63,56 @@ public class UsuarioController {
         }
         return "redirect:/admin/usuarios";
     }
+
+
+
+    @GetMapping("/ver-perfil")
+    public String verMeuPerfil(@AuthenticationPrincipal User user, Model model) {
+        Usuario usuario = usuarioService.findById(user.getId())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado: " + user.getId()));
+        model.addAttribute("usuario", usuario);
+        return "usuario/ver-perfil";
+    }
+
+
+    @GetMapping("/editar/{id}")
+    public String carregarFormularioEdicaoUsuario(@PathVariable Long id, Model model) {
+        Usuario usuario = usuarioService.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("ID de usuário inválido:" + id));
+        model.addAttribute("usuario", usuario);
+        return "usuario/editar-perfil";
+    }
+
+
+    @PutMapping("/editar/{id}")
+    public String salvarEdicaoUsuario(@PathVariable Long id, @ModelAttribute Usuario usuario) {
+        usuarioService.atualizar(id,usuario);
+        return "redirect:/usuario/dashboard";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
