@@ -22,6 +22,7 @@ public class UsuarioService {
 
     public Usuario adicionar(Usuario usuario){
         usuario.setRole(Role.USUARIO);
+        usuario.setEmail(usuario.getEmail().trim().toLowerCase());
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         return usuarioRepository.save(usuario);
     }
@@ -41,8 +42,9 @@ public class UsuarioService {
 
         usuarioBanco.setRole(Role.USUARIO);
         usuarioBanco.setNomeUser(usuario.getNomeUser());
-        usuarioBanco.setEmail(usuario.getEmail());
-        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        usuarioBanco.setEmail(usuario.getEmail().trim().toLowerCase());
+        usuarioBanco.setPassword(passwordEncoder.encode(usuario.getPassword()));
+
         usuarioBanco.setCpfUser(usuario.getCpfUser());
         usuarioBanco.setDataAniversario(usuario.getDataAniversario());
         usuarioRepository.save(usuarioBanco);

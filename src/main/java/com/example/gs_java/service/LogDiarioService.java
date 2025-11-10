@@ -73,6 +73,11 @@ public class LogDiarioService {
     public Page<LogDiario> listarLogsPorUsuario(Usuario usuarioLogado, Pageable pageable) {
         return logDiarioRepository.findAllByUsuario(usuarioLogado, pageable);
     }
+    @Transactional(readOnly = true)
+    public Page<LogDiario> listarLogsPorEmail(String email, Pageable pageable) {
+        String emailLimpo = email.trim().toLowerCase();
+        return logDiarioRepository.findAllByUsuario_Email(emailLimpo, pageable);
+    }
 
 
     @Transactional(readOnly = true)

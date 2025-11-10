@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,7 +26,8 @@ public class LogDiarioApiController {
     @Autowired
     private LogDiarioService logDiarioService;
 
-    @PostMapping
+
+    @PostMapping("/salvar")
     public ResponseEntity<LogDiarioResponseDTO> adicionarLog(
             @RequestBody @Valid LogDiarioRequestDTO logDiarioRequestDTO,
             @AuthenticationPrincipal Usuario usuarioLogado) {
@@ -43,20 +45,29 @@ public class LogDiarioApiController {
     }
 
 
-    @GetMapping
+
+    @GetMapping("/meusLogs")
     public ResponseEntity<Page<LogDiarioResponseDTO>> listarLogs(
             @AuthenticationPrincipal Usuario usuarioLogado,
             @PageableDefault(size = 10, sort = "data", direction = org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable) {
-
         Page<LogDiario> logPage = logDiarioService.listarLogsPorUsuario(usuarioLogado, pageable);
+        Page<LogDiarioResponseDTO> responsePage = logPage.map(LogDiarioResponseDTO::new);
+        return ResponseEntity.ok(responsePage);
+    }
 
+    @GetMapping("/search/{email:.+}")
+    public ResponseEntity<Page<LogDiarioResponseDTO>> listarLogsPorEmail(
+            @PathVariable("email") String email,
+            @PageableDefault(size = 10, sort = "data", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        Page<LogDiario> logPage = logDiarioService.listarLogsPorEmail(email, pageable);
         Page<LogDiarioResponseDTO> responsePage = logPage.map(LogDiarioResponseDTO::new);
 
         return ResponseEntity.ok(responsePage);
     }
 
 
-    @GetMapping("/{id}")
+    @GetMapping("/buscarPeloID/{id}")
     public ResponseEntity<LogDiarioResponseDTO> buscarLogPorId(
             @PathVariable Long id,
             @AuthenticationPrincipal Usuario usuarioLogado) {
@@ -67,7 +78,7 @@ public class LogDiarioApiController {
 
 
 
-    @PutMapping("/{id}")
+    @PutMapping("/atualizar/{id}")
     public ResponseEntity<LogDiarioResponseDTO> atualizarLog(
             @PathVariable Long id,
             @RequestBody @Valid LogDiarioRequestDTO logDiarioRequestDTO,
@@ -78,11 +89,10 @@ public class LogDiarioApiController {
     }
 
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/excluir/{id}")
     public ResponseEntity<Void> deletarLog(
             @PathVariable Long id,
             @AuthenticationPrincipal Usuario usuarioLogado) {
-
         logDiarioService.deletarLog(id, usuarioLogado);
         return ResponseEntity.noContent().build();
     }

@@ -1,5 +1,6 @@
 package com.example.gs_java.config.security;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,11 +11,14 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.savedrequest.NullRequestCache;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -27,11 +31,9 @@ import java.util.Arrays;
 public class SecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
     private final CustomLoginSuccessHandler loginSuccessHandler;
+    private final JwtTokenFilter jwtTokenFilter;
 
-    @Bean
-    public UserDetailsService userDetailsService(){
-        return customUserDetailsService;
-    }
+
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
@@ -70,24 +72,49 @@ public class SecurityConfig {
         http
                 .securityMatcher("/api/**")
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/login").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                );
+                )
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/login", "/api/usuarios/salvar" ).permitAll()
+
+                        .requestMatchers("/api/log/salvar", "/api/log/meusLogs",
+                                "/api/log/atualizar/**", "/api/log/buscarPeloID/**", "/api/log/excluir/**").hasRole("USUARIO")
+
+                        .requestMatchers("/api/log/**").hasRole("ADMIN")
+                        .anyRequest().authenticated()
+                )
+                .requestCache(cache -> cache.requestCache(new NullRequestCache()))
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .exceptionHandling(exceptions -> exceptions
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.setContentType("application/json");
+                            response.getWriter().write("{\"error\":\"Não autorizado\"}");
+                        })
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                            response.setContentType("application/json");
+                            response.getWriter().write("{\"error\":\"Acesso negado\"}");
+                        })
+                )
+                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 
+    // Sua chain Order(2) com a correção da lambda está correta.
     @Bean
     @Order(2)
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/**")
+                .securityMatcher(request -> !request.getServletPath().startsWith("/api"))
+                // ... (o resto da sua chain 'securityFilterChain' está correto)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
+                        // ... (permitAll, etc)
                         .requestMatchers(
                                 "/login",
                                 "/css/**",
@@ -96,10 +123,6 @@ public class SecurityConfig {
                                 "/usuarios/novo",
                                 "/usuarios/salvar"
                         ).permitAll()
-
-                        // Rotas de ROLE (exemplo)
-                        // .requestMatchers("/motoqueiro/dashboard/**").hasRole("MOTOQUEIRO")
-
                         .anyRequest().authenticated()
                 )
                 .formLogin(httpForm -> {
@@ -110,7 +133,6 @@ public class SecurityConfig {
                             .failureUrl("/login?error")
                             .permitAll();
                 });
-
 
         return http.build();
     }

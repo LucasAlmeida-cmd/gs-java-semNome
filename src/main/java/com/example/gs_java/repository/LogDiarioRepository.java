@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LogDiarioRepository extends JpaRepository<LogDiario, Long>{
     Page<LogDiario> findAllByUsuario(Usuario usuarioLogado, Pageable pageable);
+    Page<LogDiario> findAllByUsuario_Email(String email, Pageable pageable);
 }
