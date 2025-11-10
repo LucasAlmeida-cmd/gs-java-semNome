@@ -50,4 +50,15 @@ public class UsuarioController {
         return "redirect:/admin/dashboard";
     }
 
+    @DeleteMapping("/excluir/{id}")
+    public String deletarPorCpf(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            usuarioService.remover(id);
+            redirectAttributes.addFlashAttribute("mensagemSucesso", "Usuário excluído com sucesso!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("mensagemErro", "Erro ao excluir usuário: " + e.getMessage());
+        }
+        return "redirect:/admin/usuarios";
+    }
+
 }

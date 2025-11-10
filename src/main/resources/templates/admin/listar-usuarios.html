@@ -76,8 +76,13 @@
 
                 <a th:href="@{'/usuarios/editar/' + ${user.id}}" class="edit">Editar</a>
 
-                <a th:href="@{/usuarios/excluir/{id}(id=${user.id})}" class="delete"
-                   onclick="return confirm('Tem certeza que deseja excluir este usuário?');">Excluir</a>
+                <form th:action="@{/usuarios/excluir/{id}(id=${user.id})}" method="post" style="display: inline;">
+                    <input type="hidden" name="_method" value="DELETE" />
+                    <button type="submit" class="delete-link"
+                            onclick="return confirm('Tem certeza que deseja excluir este usuário?');">
+                        Excluir
+                    </button>
+                </form>
             </td>
         </tr>
         </tbody>

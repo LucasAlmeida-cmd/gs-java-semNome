@@ -105,16 +105,14 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // Sua chain Order(2) com a correção da lambda está correta.
+
     @Bean
     @Order(2)
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .securityMatcher(request -> !request.getServletPath().startsWith("/api"))
-                // ... (o resto da sua chain 'securityFilterChain' está correto)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        // ... (permitAll, etc)
                         .requestMatchers(
                                 "/login",
                                 "/css/**",
@@ -124,7 +122,7 @@ public class SecurityConfig {
                                 "/usuarios/salvar"
                         ).permitAll()
 
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/**", "/usuarios/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(httpForm -> {

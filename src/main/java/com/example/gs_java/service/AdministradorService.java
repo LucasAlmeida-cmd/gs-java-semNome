@@ -1,7 +1,6 @@
 package com.example.gs_java.service;
 
 import com.example.gs_java.exceptions.AdminNotFoundException;
-import com.example.gs_java.exceptions.UsuarioNotFoundException;
 import com.example.gs_java.model.Administrador;
 import com.example.gs_java.model.Role;
 import com.example.gs_java.repository.AdministradorRepository;
@@ -44,5 +43,9 @@ public class AdministradorService {
         administrador.setEmail(administradorAtualizado.getEmail());
         administrador.setPassword(passwordEncoder.encode(administrador.getPassword()));
         administradorRepository.save(administrador);
+    }
+
+    public Optional<Administrador> findById(Long id) {
+        return administradorRepository.findById(id);
     }
 }
