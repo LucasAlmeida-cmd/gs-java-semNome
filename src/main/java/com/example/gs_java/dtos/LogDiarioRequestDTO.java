@@ -8,8 +8,7 @@ import java.time.LocalDate;
 public class LogDiarioRequestDTO {
 
 
-    @NotNull(message = "A data não pode ser nula")
-    private LocalDate data;
+
 
     @NotBlank(message = "O campo emoção é obrigatório")
     private String emocao;

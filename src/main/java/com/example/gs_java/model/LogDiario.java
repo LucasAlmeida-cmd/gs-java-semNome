@@ -38,6 +38,9 @@ public class LogDiario {
 
     private String notas;
 
+    @Column(nullable = false)
+    private Boolean processadoParaInsight = false;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false)

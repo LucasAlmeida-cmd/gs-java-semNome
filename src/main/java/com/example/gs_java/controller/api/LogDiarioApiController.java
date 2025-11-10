@@ -28,7 +28,7 @@ public class LogDiarioApiController {
     @PostMapping
     public ResponseEntity<LogDiarioResponseDTO> adicionarLog(
             @RequestBody @Valid LogDiarioRequestDTO logDiarioRequestDTO,
-            @AuthenticationPrincipal Usuario usuarioLogado) { // Pega o usuário da sessão
+            @AuthenticationPrincipal Usuario usuarioLogado) {
         LogDiario logSalvo = logDiarioService.adicionarLog(logDiarioRequestDTO, usuarioLogado);
 
         LogDiarioResponseDTO responseDTO = new LogDiarioResponseDTO(logSalvo);

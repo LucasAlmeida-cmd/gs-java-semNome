@@ -12,6 +12,8 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional; // Boa prática
 
+import java.time.LocalDate;
+
 @Service
 public class LogDiarioService {
 
@@ -22,7 +24,7 @@ public class LogDiarioService {
     @Transactional
     public LogDiario adicionarLog(LogDiarioRequestDTO dto, Usuario usuarioLogado) {
         LogDiario novoLog = new LogDiario();
-        novoLog.setData(dto.getData());
+        novoLog.setData(LocalDate.now());
         novoLog.setEmocao(dto.getEmocao());
         novoLog.setHorasSono(dto.getHorasSono());
         novoLog.setAguaLitros(dto.getAguaLitros());
@@ -44,7 +46,6 @@ public class LogDiarioService {
             throw new AccessDeniedException("Usuário não autorizado a modificar este log.");
         }
 
-        logExistente.setData(dto.getData());
         logExistente.setEmocao(dto.getEmocao());
         logExistente.setHorasSono(dto.getHorasSono());
         logExistente.setAguaLitros(dto.getAguaLitros());
