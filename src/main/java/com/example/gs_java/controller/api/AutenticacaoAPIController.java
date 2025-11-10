@@ -2,12 +2,10 @@ package com.example.gs_java.controller.api;
 
 
 import com.example.gs_java.config.security.JwtTokenService;
-import com.example.gs_java.dtos.AuthResponseDTO;
-import com.example.gs_java.dtos.LoginRequestDTO;
-import com.example.gs_java.dtos.TokenResponseDTO;
+import com.example.gs_java.dtos.security.AuthResponseDTO;
+import com.example.gs_java.dtos.security.LoginRequestDTO;
 import com.example.gs_java.dtos.UserDTO;
 import com.example.gs_java.model.User;
-import com.example.gs_java.model.Usuario;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;

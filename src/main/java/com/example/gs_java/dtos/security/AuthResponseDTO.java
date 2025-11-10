@@ -1,4 +1,6 @@
-package com.example.gs_java.dtos;
+package com.example.gs_java.dtos.security;
+
+import com.example.gs_java.dtos.UserDTO;
 
 public class AuthResponseDTO {
 
