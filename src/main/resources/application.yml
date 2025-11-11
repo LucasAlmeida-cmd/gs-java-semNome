@@ -1,14 +1,16 @@
-erver:
+# ===================================
+# CONFIGURAÇÃO PADRÃO (COMUM A TODOS)
+# ===================================
+server:
   error:
     include-message: always
     include-binding-errors: always
 
+# Define 'local' como o perfil padrão se nenhum for ativado
 spring:
-  datasource:
-    url: jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL
-    username: RM557569
-    password: 110602
-
+  profiles:
+    default: local
+  
   mvc:
     hiddenmethod:
       filter:
@@ -21,17 +23,40 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
       hibernate:
         dialect: org.hibernate.dialect.OracleDialect
         format_sql: true
     show-sql: true
 
+
   ai:
     openai:
       api-key:
       model: gpt-3.5-turbo
+
+
+
+
+api:
+  security:
+    token:
+      secret: super-secret-key-para-meu-ecommerce-pessoal-ninguem-pode-saber
+
+---
+# ===================================
+# PERFIL LOCAL (para rodar na sua máquina)
+# ===================================
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    url: jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL
+    username: RM557569
+    password: 110602
 
   rabbitmq:
     host: localhost
@@ -39,8 +64,22 @@ spring:
     username: guest
     password: guest
 
-api:
-  security:
-    token:
-      secret: super-secret-key-para-meu-ecommerce-pessoal-ninguem-pode-saber
+---
+# ===================================
+# PERFIL PRODUÇÃO (para o DEPLOY)
+# ===================================
 
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+
+  datasource:
+    url: ${DB_URL_PROD}
+    username: ${DB_USER_PROD}
+    password: ${DB_PASSWORD_PROD}
+
+
+  rabbitmq:
+    url: ${CLOUDAMQP_URL}

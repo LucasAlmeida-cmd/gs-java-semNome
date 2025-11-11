@@ -119,7 +119,8 @@ public class SecurityConfig {
                                 "/js/**",
                                 "/images/**",
                                 "/usuarios/novo",
-                                "/usuarios/salvar"
+                                "/usuarios/salvar",
+                                "/test-ai"
                         ).permitAll()
 
                         .requestMatchers("/admin/**", "/usuarios/admin/**").hasRole("ADMIN")

@@ -7,7 +7,7 @@ import com.example.gs_java.model.Usuario;
 import com.example.gs_java.repository.LogDiarioRepository;
 import com.example.gs_java.repository.InsightRepository;
 
-import org.springframework.ai.chat.client.ChatClient; // 1. Importa o ChatClient
+import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
