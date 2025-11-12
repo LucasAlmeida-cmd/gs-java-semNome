@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minha Conta</title>
+    <title>Meus Insights</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
@@ -16,17 +16,12 @@
         <h2>GS Java</h2>
         <nav class="sidebar-nav">
             <ul>
-                <li class="active">
+                <li>
                     <a th:href="@{/usuario/dashboard}">
                         <span class="icon">&#127968;</span> Minha Conta
                     </a>
                 </li>
                 <li class="active">
-                    <a th:href="@{/usuario/logDiarioPorId}">
-                        <span class="icon">&#127968;</span> Adicionar Registro
-                    </a>
-                </li>
-                <li>
                     <a th:href="@{/insights/insightsPorId}">
                         <span class="icon">&#128230;</span> Meus Insights
                     </a>
@@ -36,7 +31,6 @@
                         <span class="icon">&#128100;</span> Meu Perfil
                     </a>
                 </li>
-
             </ul>
         </nav>
 
@@ -48,24 +42,22 @@
     </aside>
 
     <main class="main-content">
-
         <header class="main-header">
-            <h1>Minha Conta</h1>
+            <h1>Meus Insights</h1>
             <p class="welcome-message">
-                Olá, <span sec:authentication="principal.username">Usuario</span>
+                Olá, <span sec:authentication="principal.username">Usuário</span>
             </p>
         </header>
 
-        <section class="dashboard-cards">
-            <div class="card">
-                <h3>Meus Pedidos</h3>
-                <p>Você tem 2 pedidos em andamento.</p>
-                <a th:href="@{/meus-pedidos}">Ver pedidos &rarr;</a>
+        <section class="insights-list">
+            <div th:if="${mensagemErro}" class="alert alert-error" th:text="${mensagemErro}"></div>
+            <div th:if="${#lists.isEmpty(insights)}" class="no-insights">
+                <p>Você ainda não possui insights gerados.</p>
             </div>
-            <div class="card">
-                <h3>Meu Perfil</h3>
-                <p>Atualize suas informações pessoais.</p>
-                <a th:href="@{/meu-perfil}">Editar perfil &rarr;</a>
+
+            <div th:each="insight : ${insights}" class="insight-card">
+                <p th:text="${insight.texto}">Conteúdo do insight...</p>
+                <span class="insight-date">Gerado em: <span th:text="${#temporals.format(insight.dataCriacao, 'dd/MM/yyyy HH:mm')}"></span></span>
             </div>
         </section>
     </main>

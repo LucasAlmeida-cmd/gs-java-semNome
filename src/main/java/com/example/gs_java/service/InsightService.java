@@ -97,5 +97,9 @@ public class InsightService {
         return sb.toString();
     }
 
+    public List<Insight> buscarPorUsuario(Usuario usuario) {
+        return insightRepository.findByUsuario(usuario);
+    }
+
     public static record EmailMessage(String toEmail, Long insightId) {}
 }

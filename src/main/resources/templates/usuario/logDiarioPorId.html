@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Logs Diários</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="dashboard-layout">
+
+    <aside class="sidebar">
+        <h2>GS Java</h2>
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="active">
+                    <a th:href="@{/usuario/logDiarioPorId}">
+                        <span class="icon">&#128221;</span> Meus Registros
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/insights/insightsPorId}">
+                        <span class="icon">&#128230;</span> Meus Insights
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/usuarios/ver-perfil}">
+                        <span class="icon">&#128100;</span> Meu Perfil
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <form class="logout-form" th:action="@{/logout}" method="post">
+            <button type="submit">
+                <span class="icon">&#128682;</span> Sair
+            </button>
+        </form>
+    </aside>
+
+    <main class="main-content">
+        <header class="main-header">
+            <h1>Meus Registros Diários</h1>
+            <p class="welcome-message">
+                Olá, <span sec:authentication="principal.username">Usuário</span>
+            </p>
+        </header>
+
+        <div th:if="${mensagemSucesso}" class="alert alert-success" th:text="${mensagemSucesso}"></div>
+
+        <section class="logs-list">
+            <div th:if="${#lists.isEmpty(logs)}" class="no-logs">
+                <p>Você ainda não possui registros diários.</p>
+            </div>
+
+            <div th:each="log : ${logs}" class="log-card">
+                <div class="log-header">
+                    <h3 th:text="'Emoção: ' + ${log.emocao}"></h3>
+                    <span class="log-date">
+                        Data: <span th:text="${#temporals.format(log.data, 'dd/MM/yyyy')}"></span>
+                    </span>
+                </div>
+
+                <div class="log-details">
+                    <p><strong>Horas de Sono:</strong> <span th:text="${log.horasSono}"></span> horas</p>
+                    <p><strong>Água ingerida:</strong> <span th:text="${log.aguaLitros}"></span> L</p>
+                    <p><strong>Fez Exercício:</strong>
+                        <span th:text="${log.fezExercicio ? 'Sim' : 'Não'}"></span>
+                    </p>
+                    <p><strong>Descansou a Mente:</strong>
+                        <span th:text="${log.descansouMente ? 'Sim' : 'Não'}"></span>
+                    </p>
+                    <p th:if="${log.notas != null && log.notas != ''}">
+                        <strong>Notas:</strong> <span th:text="${log.notas}"></span>
+                    </p>
+
+                </div>
+
+                <div class="log-actions">
+                    <a th:href="@{'/usuario/editarLog/' + ${log.id}}" class="btn-edit">Editar</a>
+
+                    <form th:action="@{'/usuario/excluirLog/' + ${log.id}}" method="post" style="display:inline;">
+                        <button type="submit" class="btn-delete"
+                                onclick="return confirm('Tem certeza que deseja excluir este registro?')">
+                            Excluir
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+</body>
+</html>

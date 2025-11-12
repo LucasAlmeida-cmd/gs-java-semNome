@@ -124,7 +124,7 @@ public class SecurityConfig {
                         ).permitAll()
 
                         .requestMatchers("/admin/**", "/usuarios/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/usuarios/ver-perfil","usuarios/editar/").hasAnyRole("USUARIO")
+                        .requestMatchers("/usuarios/ver-perfil","usuarios/editar/", "/insights/insightsPorId").hasAnyRole("USUARIO")
 
                         .anyRequest().authenticated()
                 )

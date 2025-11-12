@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/insights") // Rota do MVC, ex: http://localhost:8080/insights
+@RequestMapping("/insights")
 public class InsightController {
 
     @Autowired
@@ -24,9 +24,21 @@ public class InsightController {
         return "insights/pagina-insights";
     }
 
-    /**
-     * Recebe a ação do botão (POST).
-     */
+    @GetMapping("/insightsPorId")
+    public String listarInsightsPorUsuario(
+            @AuthenticationPrincipal Usuario usuarioLogado,
+            org.springframework.ui.Model model) {
+        try {
+            var insights = insightService.buscarPorUsuario(usuarioLogado);
+            model.addAttribute("insights", insights);
+        } catch (Exception e) {
+            model.addAttribute("mensagemErro", "Erro ao carregar insights: " + e.getMessage());
+        }
+
+        return "insights/insightsPorId";
+    }
+
+
     @PostMapping("/gerar")
     public String gerarInsight(
             @AuthenticationPrincipal Usuario usuarioLogado,

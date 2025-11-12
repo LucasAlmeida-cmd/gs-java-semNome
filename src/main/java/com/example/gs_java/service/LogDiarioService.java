@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional; // Boa prática
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class LogDiarioService {
@@ -89,5 +90,25 @@ public class LogDiarioService {
             throw new AccessDeniedException("Usuário não autorizado a visualizar este log.");
         }
         return log;
+    }
+
+    public List<LogDiario> buscarPorUsuario(Usuario usuario) {
+        return logDiarioRepository.findByUsuario(usuario);
+    }
+
+    public LogDiario buscarPorId(Long id) {
+        return logDiarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Log não encontrado"));
+    }
+
+    public void atualizar(LogDiario log) {
+        logDiarioRepository.save(log);
+    }
+
+    public void excluir(Long id) {
+        logDiarioRepository.deleteById(id);
+    }
+
+    public void salvar(LogDiario log) {
+        logDiarioRepository.save(log);
     }
 }

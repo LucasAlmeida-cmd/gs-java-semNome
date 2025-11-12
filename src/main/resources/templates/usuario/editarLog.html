@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Log Diário</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="dashboard-layout">
+
+    <main class="main-content">
+        <header class="main-header">
+            <h1>Editar Registro Diário</h1>
+        </header>
+
+        <form th:action="@{/usuario/atualizarLog}" method="post" class="edit-form" th:object="${log}">
+            <!-- ID oculto -->
+            <input type="hidden" th:field="*{id}">
+
+            <label for="data">Data:</label>
+            <input type="date" id="data" th:field="*{data}" required>
+
+            <label for="emocao">Emoção:</label>
+            <input type="text" id="emocao" th:field="*{emocao}" required>
+
+            <label for="horasSono">Horas de Sono:</label>
+            <input type="number" id="horasSono" th:field="*{horasSono}" min="0" required>
+
+            <label for="aguaLitros">Litros de Água Consumidos:</label>
+            <input type="number" id="aguaLitros" th:field="*{aguaLitros}" step="0.1" min="0" required>
+
+            <label for="fezExercicio">Fez Exercício:</label>
+            <select id="fezExercicio" th:field="*{fezExercicio}" required>
+                <option th:value="true" th:selected="${log.fezExercicio == true}">Sim</option>
+                <option th:value="false" th:selected="${log.fezExercicio == false}">Não</option>
+            </select>
+
+            <label for="descansouMente">Descansou a Mente:</label>
+            <select id="descansouMente" th:field="*{descansouMente}" required>
+                <option th:value="true" th:selected="${log.descansouMente == true}">Sim</option>
+                <option th:value="false" th:selected="${log.descansouMente == false}">Não</option>
+            </select>
+
+            <label for="notas">Notas:</label>
+            <textarea id="notas" th:field="*{notas}" rows="5" placeholder="Adicione observações..."></textarea>
+
+            <button type="submit" class="btn-save">Salvar Alterações</button>
+            <a th:href="@{/usuario/logDiarioPorId}" class="btn-back">Voltar</a>
+        </form>
+    </main>
+</div>
+
+</body>
+</html>
