@@ -2,7 +2,7 @@ package com.example.gs_java.service;
 
 import com.example.gs_java.dtos.LogDiarioRequestDTO;
 import com.example.gs_java.model.LogDiario;
-import com.example.gs_java.model.Usuario; // Importe seu modelo de Usuário
+import com.example.gs_java.model.Usuario;
 import com.example.gs_java.repository.LogDiarioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional; // Boa prática
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;

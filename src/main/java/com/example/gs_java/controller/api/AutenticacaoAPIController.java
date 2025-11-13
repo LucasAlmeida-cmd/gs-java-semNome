@@ -2,9 +2,9 @@ package com.example.gs_java.controller.api;
 
 
 import com.example.gs_java.config.security.JwtTokenService;
+import com.example.gs_java.dtos.UserDTO;
 import com.example.gs_java.dtos.security.AuthResponseDTO;
 import com.example.gs_java.dtos.security.LoginRequestDTO;
-import com.example.gs_java.dtos.UserDTO;
 import com.example.gs_java.model.User;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

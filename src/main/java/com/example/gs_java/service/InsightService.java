@@ -1,12 +1,11 @@
 package com.example.gs_java.service;
 
 import com.example.gs_java.config.RabbitMQConfig;
-import com.example.gs_java.model.LogDiario;
 import com.example.gs_java.model.Insight;
+import com.example.gs_java.model.LogDiario;
 import com.example.gs_java.model.Usuario;
-import com.example.gs_java.repository.LogDiarioRepository;
 import com.example.gs_java.repository.InsightRepository;
-
+import com.example.gs_java.repository.LogDiarioRepository;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class InsightService {

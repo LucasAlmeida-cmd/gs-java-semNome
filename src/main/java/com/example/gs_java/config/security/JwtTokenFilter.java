@@ -19,31 +19,28 @@ import java.io.IOException;
 public class JwtTokenFilter extends OncePerRequestFilter {
 
     private final JwtTokenService jwtTokenService;
-    private final UserDetailsService userDetailsService; // O Spring injetará seu CustomUserDetailsService aqui
+    private final UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        // 1. Obter o token do cabeçalho
         var authorizationHeader = request.getHeader("Authorization");
 
-        // 2. Validar o token
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            var token = authorizationHeader.substring(7); // Remove o "Bearer "
-            var subjectEmail = jwtTokenService.getSubject(token); // Valida e pega o email
+            var token = authorizationHeader.substring(7);
+            var subjectEmail = jwtTokenService.getSubject(token);
 
-            // 3. Se o token for válido e o usuário ainda não estiver autenticado
             if (subjectEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                // 4. Carregar o usuário do banco de dados
+
                 UserDetails userDetails = userDetailsService.loadUserByUsername(subjectEmail);
 
-                // 5. Criar o "Authentication" e colocar no contexto do Spring
+
                 var authentication = new UsernamePasswordAuthenticationToken(
                         userDetails,
-                        null, // Não precisamos de credenciais (senha)
+                        null,
                         userDetails.getAuthorities()
                 );
 
@@ -51,7 +48,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             }
         }
 
-        // 6. Continua a cadeia de filtros
+
         filterChain.doFilter(request, response);
     }
 }

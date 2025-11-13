@@ -2,7 +2,6 @@ package com.example.gs_java.controller;
 
 import com.example.gs_java.dtos.LogDiarioRequestDTO;
 import com.example.gs_java.model.LogDiario;
-import com.example.gs_java.model.User;
 import com.example.gs_java.model.Usuario;
 import com.example.gs_java.service.LogDiarioService;
 import jakarta.validation.Valid;
@@ -13,8 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.time.LocalDate;
 
 @Controller
 @RequestMapping("/usuario")
@@ -53,7 +50,7 @@ public class LogDiarioController {
     }
 
 
-    // Página que lista todos os logs do usuário logado
+
     @GetMapping("/logDiarioPorId")
     public String listarLogsUsuario(@AuthenticationPrincipal Usuario usuarioLogado, Model model) {
         var logs = logDiarioService.buscarPorUsuario(usuarioLogado);
@@ -61,7 +58,7 @@ public class LogDiarioController {
         return "usuario/logDiarioPorId";
     }
 
-    // Página para editar um log específico
+
     @GetMapping("/editarLog/{id}")
     public String editarLog(@PathVariable Long id, Model model) {
         LogDiario log = logDiarioService.buscarPorId(id);
@@ -69,7 +66,7 @@ public class LogDiarioController {
         return "usuario/editarLog";
     }
 
-    // Atualiza o log (salvar alterações)
+
     @PostMapping("/atualizarLog")
     public String atualizarLog(
             @ModelAttribute LogDiario logDiario,
@@ -77,13 +74,10 @@ public class LogDiarioController {
             RedirectAttributes redirectAttributes) {
 
         try {
-            // Reatribui o usuário logado antes de salvar
             logDiario.setUsuario(usuarioLogado);
 
-            // Busca o log atual no banco para preservar valores que não vieram do formulário
             LogDiario existente = logDiarioService.buscarPorId(logDiario.getId());
             if (existente != null) {
-                // Mantém o valor original do campo processadoParaInsight
                 logDiario.setProcessadoParaInsight(existente.getProcessadoParaInsight());
             }
 
@@ -96,7 +90,7 @@ public class LogDiarioController {
         return "redirect:/usuario/logDiarioPorId";
     }
 
-    // Exclui um log
+
     @PostMapping("/excluirLog/{id}")
     public String excluirLog(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         logDiarioService.excluir(id);
