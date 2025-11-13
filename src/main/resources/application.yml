@@ -68,6 +68,8 @@ spring:
     username: ${ORACLE_USER_KEY}
     password: ${ORACLE_PASS_KEY}
 
+#    comando para subir docker
+#    docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
   rabbitmq:
     host: localhost
     port: 5672
