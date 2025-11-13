@@ -92,4 +92,5 @@ spring:
 
 
   rabbitmq:
-    uri: ${RABBITMQ_URL}
+    addresses: ${RABBITMQ_URL}
+    queue: email.notification.queue
