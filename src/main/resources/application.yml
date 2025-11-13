@@ -1,5 +1,5 @@
 # ===================================
-# CONFIGURAÇÃO ÚNICA (PRODUÇÃO)
+# CONFIGURAÇÃO PADRÃO (COMUM A TODOS)
 # ===================================
 server:
   error:
@@ -7,7 +7,8 @@ server:
     include-binding-errors: always
 
 spring:
-  # --- PERFIS REMOVIDOS ---
+  profiles:
+    default: local
 
   mvc:
     hiddenmethod:
@@ -40,21 +41,55 @@ spring:
           starttls:
             enable: true
 
-  # --- Configurações de Banco e RabbitMQ MOVIDAS para cá ---
+  ai:
+    openai:
+      api-key: ${GPT_PASS_KEY}
+      model: gpt-3.5-turbo
+
+
+
+
+api:
+  security:
+    token:
+      secret: ${SECRET_SPRING_SECURITY}
+
+---
+# ===================================
+# PERFIL LOCAL (para rodar na sua máquina)
+# ===================================
+spring:
+  config:
+    activate:
+      on-profile: local
+
   datasource:
     url: jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL
     username: ${ORACLE_USER_KEY}
     password: ${ORACLE_PASS_KEY}
 
   rabbitmq:
-    url: ${RABBITMQ_URL} # <-- Agora esta é a ÚNICA configuração
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
-  ai:
-    openai:
-      api-key: ${GPT_PASS_KEY}
-      model: gpt-3.5-turbo
+---
+# ===================================
+# PERFIL PRODUÇÃO (para o DEPLOY)
+# ===================================
 
-api:
-  security:
-    token:
-      secret: ${SECRET_SPRING_SECURITY}
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+
+  datasource:
+    url: jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL
+    username: ${ORACLE_USER_KEY}
+    password: ${ORACLE_PASS_KEY}
+
+
+  rabbitmq:
+    uri: ${RABBITMQ_URL}
