@@ -34,7 +34,6 @@ public class InsightController {
         } catch (Exception e) {
             model.addAttribute("mensagemErro", "Erro ao carregar insights: " + e.getMessage());
         }
-
         return "insights/insightsPorId";
     }
 
@@ -43,7 +42,6 @@ public class InsightController {
     public String gerarInsight(
             @AuthenticationPrincipal Usuario usuarioLogado,
             RedirectAttributes redirectAttributes) {
-
         try {
             String insightTexto = insightService.gerarInsight(usuarioLogado);
             redirectAttributes.addFlashAttribute("insightGerado", insightTexto);
@@ -51,6 +49,6 @@ public class InsightController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("mensagemErro", "Erro ao gerar insight: " + e.getMessage());
         }
-        return "redirect:/insights";
+        return "redirect:/insights/insightsPorId";
     }
 }

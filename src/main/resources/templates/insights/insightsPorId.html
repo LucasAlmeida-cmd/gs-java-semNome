@@ -22,8 +22,18 @@
                     </a>
                 </li>
                 <li class="active">
+                    <a th:href="@{/usuario/logDiarioPorId}">
+                        <span class="icon">&#128221;</span> Meus Registros
+                    </a>
+                </li>
+                <li class="active">
                     <a th:href="@{/insights/insightsPorId}">
-                        <span class="icon">&#128230;</span> Meus Insights
+                        <span class="icon">&#128161;</span> Meus Insights
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/usuario/novo}">
+                        <span class="icon">&#128190;</span> Adicionar Log
                     </a>
                 </li>
                 <li>
@@ -33,11 +43,8 @@
                 </li>
             </ul>
         </nav>
-
         <form class="logout-form" th:action="@{/logout}" method="post">
-            <button type="submit">
-                <span class="icon">&#128682;</span> Sair
-            </button>
+            <button type="submit"><span class="icon">&#128682;</span> Sair</button>
         </form>
     </aside>
 
@@ -49,19 +56,44 @@
             </p>
         </header>
 
+        <section class="generate-insight" style="margin-bottom: 2rem; background: #fff; padding: 1.5rem 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);">
+            <h3>Ações de Bem-Estar</h3>
+            <p>Adicione um novo registro diário ou gere um insight com base nos seus registros pendentes.</p>
+
+            <div style="margin-top: 1rem;">
+                <form th:action="@{/insights/gerar}" method="post" style="display: inline-block;">
+                    <button type="submit" class="btn-login btn-auto">
+                        Gerar Meu Insight
+                    </button>
+                </form>
+
+                <a th:href="@{/usuario/novo}" class="btn-login btn-auto btn-secondary" style="margin-left: 10px;">
+                    Adicionar Novo Log
+                </a>
+            </div>
+        </section>
+
+        <div th:if="${mensagemSucesso}" class="success-message" th:text="${mensagemSucesso}"></div>
+        <div th:if="${mensagemErro}" class="error-message" th:text="${mensagemErro}"></div>
+
         <section class="insights-list">
-            <div th:if="${mensagemErro}" class="alert alert-error" th:text="${mensagemErro}"></div>
+            <h2>Seu Histórico de Insights</h2>
+
             <div th:if="${#lists.isEmpty(insights)}" class="no-insights">
-                <p>Você ainda não possui insights gerados.</p>
+                <p>Você ainda não possui insights gerados. Use o botão acima para criar o seu primeiro!</p>
             </div>
 
-            <div th:each="insight : ${insights}" class="insight-card">
-                <p th:text="${insight.texto}">Conteúdo do insight...</p>
-                <span class="insight-date">Gerado em: <span th:text="${#temporals.format(insight.dataCriacao, 'dd/MM/yyyy HH:mm')}"></span></span>
+            <div th:each="insight : ${insights}" class="insight-card" style="background: #fff; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 1rem;">
+
+                <p th:text="${insight.texto}" style="margin-bottom: 0.5rem;">Conteúdo do insight...</p>
+
+                <span class="insight-date" style="font-size: 0.85rem; color: #666;">
+            Gerado em:
+            <span th:text="${#temporals.format(insight.dataGeracao, 'dd/MM/yyyy HH:mm')}"></span>
+        </span>
             </div>
         </section>
     </main>
 </div>
-
 </body>
 </html>

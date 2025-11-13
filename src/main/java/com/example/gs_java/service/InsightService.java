@@ -63,9 +63,10 @@ public class InsightService {
         logDiarioRepository.saveAll(logs);
 
 
+        System.out.println("SERVICE: Enviando ID do insight para a fila: " + insightSalvo.getId());
         rabbitTemplate.convertAndSend(
                 RabbitMQConfig.QUEUE_EMAIL,
-                new EmailMessage(usuarioLogado.getEmail(), insightSalvo.getId())
+                insightSalvo.getId()
         );
 
 

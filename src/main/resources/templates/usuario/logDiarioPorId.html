@@ -16,14 +16,24 @@
         <h2>GS Java</h2>
         <nav class="sidebar-nav">
             <ul>
+                <li>
+                    <a th:href="@{/usuario/dashboard}">
+                        <span class="icon">&#127968;</span> Minha Conta
+                    </a>
+                </li>
                 <li class="active">
                     <a th:href="@{/usuario/logDiarioPorId}">
                         <span class="icon">&#128221;</span> Meus Registros
                     </a>
                 </li>
-                <li>
+                <li class="active">
                     <a th:href="@{/insights/insightsPorId}">
-                        <span class="icon">&#128230;</span> Meus Insights
+                        <span class="icon">&#128161;</span> Meus Insights
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/usuario/novo}">
+                        <span class="icon">&#128190;</span> Adicionar Log
                     </a>
                 </li>
                 <li>

@@ -6,7 +6,6 @@ server:
     include-message: always
     include-binding-errors: always
 
-# Define 'local' como o perfil padrão se nenhum for ativado
 spring:
   profiles:
     default: local
@@ -30,10 +29,21 @@ spring:
         format_sql: true
     show-sql: true
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: zenlogoficial@gmail.com
+    password: ${GM_PASS_KEY}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
   ai:
     openai:
-      api-key:
+      api-key: ${GPT_PASS_KEY}
       model: gpt-3.5-turbo
 
 
@@ -42,7 +52,7 @@ spring:
 api:
   security:
     token:
-      secret: super-secret-key-para-meu-ecommerce-pessoal-ninguem-pode-saber
+      secret: ${SECRET_SPRING_SECURITY}
 
 ---
 # ===================================
@@ -55,8 +65,8 @@ spring:
 
   datasource:
     url: jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL
-    username: RM557569
-    password: 110602
+    username: ${ORACLE_USER_KEY}
+    password: ${ORACLE_PASS_KEY}
 
   rabbitmq:
     host: localhost
@@ -76,10 +86,10 @@ spring:
 
 
   datasource:
-    url: ${DB_URL_PROD}
-    username: ${DB_USER_PROD}
-    password: ${DB_PASSWORD_PROD}
+    url: jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL
+    username: ${ORACLE_USER_KEY}
+    password: ${ORACLE_PASS_KEY}
 
 
   rabbitmq:
-    url: ${CLOUDAMQP_URL}
+    url: ${RABBITMQ_URL}

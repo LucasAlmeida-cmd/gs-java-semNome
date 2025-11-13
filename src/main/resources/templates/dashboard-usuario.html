@@ -16,19 +16,24 @@
         <h2>GS Java</h2>
         <nav class="sidebar-nav">
             <ul>
-                <li class="active">
+                <li>
                     <a th:href="@{/usuario/dashboard}">
                         <span class="icon">&#127968;</span> Minha Conta
                     </a>
                 </li>
                 <li class="active">
                     <a th:href="@{/usuario/logDiarioPorId}">
-                        <span class="icon">&#127968;</span> Adicionar Registro
+                        <span class="icon">&#128221;</span> Meus Registros
+                    </a>
+                </li>
+                <li class="active">
+                    <a th:href="@{/insights/insightsPorId}">
+                        <span class="icon">&#128161;</span> Meus Insights
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/insights/insightsPorId}">
-                        <span class="icon">&#128230;</span> Meus Insights
+                    <a th:href="@{/usuario/novo}">
+                        <span class="icon">&#128190;</span> Adicionar Log
                     </a>
                 </li>
                 <li>
@@ -36,7 +41,6 @@
                         <span class="icon">&#128100;</span> Meu Perfil
                     </a>
                 </li>
-
             </ul>
         </nav>
 
@@ -58,14 +62,11 @@
 
         <section class="dashboard-cards">
             <div class="card">
-                <h3>Meus Pedidos</h3>
-                <p>Você tem 2 pedidos em andamento.</p>
-                <a th:href="@{/meus-pedidos}">Ver pedidos &rarr;</a>
-            </div>
-            <div class="card">
                 <h3>Meu Perfil</h3>
                 <p>Atualize suas informações pessoais.</p>
-                <a th:href="@{/meu-perfil}">Editar perfil &rarr;</a>
+                <a th:href="@{/usuarios/editar/{id}(id=${usuario.id})}" >
+                    Editar Perfil &rarr;
+                </a>
             </div>
         </section>
     </main>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Log Diário</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="dashboard-layout">
+
+<aside class="sidebar">
+    <h2>GS Java</h2>
+    <nav class="sidebar-nav">
+        <ul>
+            <li>
+                <a th:href="@{/usuario/dashboard}">
+                    <span class="icon">&#127968;</span> Minha Conta
+                </a>
+            </li>
+            <li class="active">
+                <a th:href="@{/usuario/logDiarioPorId}">
+                    <span class="icon">&#128221;</span> Meus Registros
+                </a>
+            </li>
+            <li class="active">
+                <a th:href="@{/insights/insightsPorId}">
+                    <span class="icon">&#128161;</span> Meus Insights
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/usuario/novo}">
+                    <span class="icon">&#128190;</span> Adicionar Log
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/usuarios/ver-perfil}">
+                    <span class="icon">&#128100;</span> Meu Perfil
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <form class="logout-form" th:action="@{/logout}" method="post">
+        <button type="submit"><span class="icon">&#128682;</span> Sair</button>
+    </form>
+</aside>
+
+<main class="main-content">
+    <header class="main-header">
+        <h1>Adicionar Log Diário</h1>
+        <p class="welcome-message">Registre como você se sentiu hoje.</p>
+    </header>
+
+    <form th:action="@{/usuario/salvar}" th:object="${logDiario}" method="post" class="login-container" style="max-width: 600px; text-align: left; margin: 0;">
+
+        <div class="form-group">
+            <label for="emocao">Como você está se sentindo?</label>
+            <select id="emocao" th:field="*{emocao}" class="form-group input" style="padding: 0.8rem 1rem; font-size: 1rem; border: 1px solid #ddd; border-radius: 8px;">
+                <option value="Feliz">Feliz</option>
+                <option value="Neutro">Neutro</option>
+                <option value="Triste">Triste</option>
+                <option value="Estressado">Estressado</option>
+                <option value="Ansioso">Ansioso</option>
+            </select>
+            <span class="error-text" th:if="${#fields.hasErrors('emocao')}" th:errors="*{emocao}"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="horasSono">Horas de Sono</label>
+            <input type="number" id="horasSono" th:field="*{horasSono}" min="0" max="24" class="form-group input" required />
+            <span class="error-text" th:if="${#fields.hasErrors('horasSono')}" th:errors="*{horasSono}"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="aguaLitros">Água (Litros)</label>
+            <input type="number" id="aguaLitros" th:field="*{aguaLitros}" step="0.1" min="0" class="form-group input" required />
+            <span class="error-text" th:if="${#fields.hasErrors('aguaLitros')}" th:errors="*{aguaLitros}"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="fezExercicio">Fez exercício hoje?</label>
+            <select id="fezExercicio" th:field="*{fezExercicio}" class="form-group input" style="padding: 0.8rem 1rem; font-size: 1rem; border: 1px solid #ddd; border-radius: 8px;">
+                <option value="true">Sim</option>
+                <option value="false">Não</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="descansouMente">Descansou a mente (meditou, relaxou)?</label>
+            <select id="descansouMente" th:field="*{descansouMente}" class="form-group input" style="padding: 0.8rem 1rem; font-size: 1rem; border: 1px solid #ddd; border-radius: 8px;">
+                <option value="true">Sim</option>
+                <option value="false">Não</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="notas">Notas (Opcional)</label>
+            <textarea id="notas" th:field="*{notas}" rows="3" class="form-group input" style="padding: 0.8rem 1rem; font-size: 1rem; border: 1px solid #ddd; border-radius: 8px;"></textarea>
+        </div>
+
+        <button type="submit" class="btn-login">Salvar Log</button>
+    </form>
+
+</main>
+
+</div>
+</body>
+</html>

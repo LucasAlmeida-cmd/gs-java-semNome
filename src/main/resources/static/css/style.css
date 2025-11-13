@@ -607,4 +607,14 @@ button.delete-link:hover {
     background-color: #5a6268;
     transform: translateY(-2px);
 }
-
+.btn-auto {
+    width: auto;
+    padding: 0.8rem 1.5rem;
+}
+/* Adicionei um estilo para um botão "secundário" */
+.btn-secondary {
+    background-color: #6c757d;
+}
+.btn-secondary:hover {
+    background-color: #5a6268;
+}

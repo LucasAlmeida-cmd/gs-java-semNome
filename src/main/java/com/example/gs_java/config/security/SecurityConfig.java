@@ -120,11 +120,13 @@ public class SecurityConfig {
                                 "/images/**",
                                 "/usuarios/novo",
                                 "/usuarios/salvar",
-                                "/test-ai"
+                                "/test-ai",
+                                "/5672"
                         ).permitAll()
 
                         .requestMatchers("/admin/**", "/usuarios/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/usuarios/ver-perfil","usuarios/editar/", "/insights/insightsPorId").hasAnyRole("USUARIO")
+                        .requestMatchers("/usuarios/ver-perfil","usuarios/editar/", "/insights/insightsPorId",
+                                "/insights/gerar").hasAnyRole("USUARIO")
 
                         .anyRequest().authenticated()
                 )

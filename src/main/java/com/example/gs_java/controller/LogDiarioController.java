@@ -1,14 +1,20 @@
 package com.example.gs_java.controller;
 
+import com.example.gs_java.dtos.LogDiarioRequestDTO;
 import com.example.gs_java.model.LogDiario;
+import com.example.gs_java.model.User;
 import com.example.gs_java.model.Usuario;
 import com.example.gs_java.service.LogDiarioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.time.LocalDate;
 
 @Controller
 @RequestMapping("/usuario")
@@ -16,6 +22,36 @@ public class LogDiarioController {
 
     @Autowired
     private LogDiarioService logDiarioService;
+
+    @GetMapping("/novo")
+    public String mostrarFormularioLog(Model model) {
+        LogDiarioRequestDTO dto = new LogDiarioRequestDTO();
+        model.addAttribute("logDiario", dto);
+        return "adicionar-log";
+    }
+
+    @PostMapping("/salvar")
+    public String salvarLog(
+            @Valid @ModelAttribute("logDiario") LogDiarioRequestDTO logDTO,
+            BindingResult result,
+            @AuthenticationPrincipal Usuario usuarioLogado,
+            RedirectAttributes redirectAttributes) {
+
+        if (result.hasErrors()) {
+            return "adicionar-log";
+        }
+
+        try {
+            logDiarioService.adicionarLog(logDTO, usuarioLogado);
+            redirectAttributes.addFlashAttribute("mensagemSucesso", "Novo log salvo! Você já pode gerar um novo insight.");
+            return "redirect:/insights/insightsPorId";
+
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("mensagemErro", "Erro ao salvar o log: " + e.getMessage());
+            return "redirect:/logs/novo";
+        }
+    }
+
 
     // Página que lista todos os logs do usuário logado
     @GetMapping("/logDiarioPorId")
