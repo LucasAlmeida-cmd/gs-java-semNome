@@ -1,42 +1,39 @@
-# 1 - Imagem base com Maven e Java
-FROM maven:3.9.9-eclipse-temurin-17-alpine
+# --- Estágio 1: Build (Construção) ---
+# Usando a sua imagem base (Alpine)
+FROM maven:3.9.9-eclipse-temurin-17-alpine AS builder
 
-# 2 - Atualiza o repositório do Alpine
-RUN apk update && apk add --no-cache bash
-
-# 3 - Cria um novo usuário
+# Cria o usuário
 RUN adduser -D userapp
-
-# 4 - Define que os próximos comandos usarão esse usuário
 USER userapp
-
-# 5 - Define diretório padrão
 WORKDIR /app
 
-# 6 - Copia os arquivos do projeto para dentro da imagem
-COPY --chown=userapp:userapp . .
+# --- OTIMIZAÇÃO DE CACHE ---
+# 1. Copia SÓ o pom.xml primeiro
+COPY --chown=userapp:userapp pom.xml .
 
-# 7 - Compila o projeto com Maven (sem executar testes)
+# 2. Baixa SÓ as dependências
+RUN mvn dependency:go-offline -DskipTests
+
+# 3. Agora, copia o seu código-fonte
+COPY --chown=userapp:userapp src ./src
+
+# 4. Compila o projeto
 RUN mvn clean package -DskipTests
 
-# Troca de volta para root para copiar o .jar para outra imagem mais leve
-USER root
 
-# 8 + 9 - Nova imagem mais enxuta apenas para execução
-FROM openjdk:17-jdk-slim
+# --- Estágio 2: Run (Execução) ---
 
-# Cria usuário também na imagem de execução
+# Esta imagem EXISTE e é perfeita para o seu build.
+FROM eclipse-temurin:17-jre-alpine
+
+# Cria o usuário na imagem de execução
 RUN adduser --disabled-password --gecos "" userapp
-
 USER userapp
-
 WORKDIR /app
 
-# Copia o .jar gerado na imagem anterior
-COPY --from=0 /app/target/gs-java-0.0.1-SNAPSHOT.jar app.jar
+# Copia o .jar do estágio 'builder'
+COPY --from=builder /app/target/gs-java-0.0.1-SNAPSHOT.jar app.jar
 
-# 8 - Expondo a porta
 EXPOSE 8080
 
-# 9 - Executa o comando com CMD
-CMD ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
