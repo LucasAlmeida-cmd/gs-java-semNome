@@ -111,7 +111,7 @@ Siga os passos abaixo para executar o projeto na sua máquina.
 
 1.  *Clone o repositório:*
     bash
-    git clone [https://github.com/LucasAlmeida-cmd/challenge-mottu.git
+    git clone https://github.com/LucasAlmeida-cmd/gs-java-ZenLog.git
 
 2. Mudar a branch para a  ```main```
     
