@@ -24,61 +24,65 @@ Aqui está uma lista das principais funcionalidades da aplicação:
 * *✅ Leitura, Atualização, Criação e Remoção de Logs Diarios*
 * *✅ Gerar, Leitura de Insights*
 
-* CONTINUAR DAQUI
 ---
 
 ## 🚀 Tecnologias Utilizadas
 
 Este projeto foi desenvolvido utilizando as seguintes tecnologias:
 
-* *Linguagem:* [Ex:Java 17]
+* *Linguagem:* [Java 17]
 * *Framework Backend:* [Spring Boot]
-* *Banco de Dados:* [Ex:PostgreSQL]
-* *Frontend:* [Ex: HTML5, CSS3, JavaScript, Thymeleaf]
-* *Gerenciador de Dependências:* [Ex:Maven]
+* *Banco de Dados:* [Oracle]
+* *Frontend:* [HTML5, CSS3, JavaScript, Thymeleaf]
+* *Gerenciador de Dependências:* [Maven]
+* *Spring AI:* [ChatGPT]
+* *Mensageria:* [Rabbitmq]
 
 ---
 
 ## 🏛️ Estrutura do Projeto
 
 
-* 📁 *src/java/*: Diretório principal da aplicação.
-    * 📁 *Config*: Configuração da aplicação.
-        * DataInitializer: Adiciona um Admin toda vez que a operação rodar.
+* 📁 *src/main/java*: Diretório principal da aplicação.
+    * 📁 *Config*: Configuração da aplicação. 
+        * 📁 *Security*: Arquivos de configuração do Spring Security
+             * *CustomLoginSuccessHandler*: Arquivo que redireciona para os dashboards.
+             * *CustomUserDetailsService*: Arqeuivo que encontra o usuário.
+             * *JwtTokenFilter*: Arquivo que transforma o token em Bearer e vincula com o email.
+             * *JwtTokenService*: Arquivo que faz a maior parte da configuração do token.
+             * *SecurityConfig*: Arqeuivo de confuguração da segurança em si.
+          * *DataInitializer*: Arquivo que inicializa um admin quando roda pela primeira vez.
+          * *RabbitMQConfig*: Arquivo que configura a queue do rabbit.
+    * 📁 *Consumer*: Pasta onde esta a configuração do envio do e-mail.
+         * *EmailConsumer*: Arquivo de configuração de envio do e-mail.
     * 📁 *Controllers*: O controle de toda a operação. Recebem as requisições do usuário, interagem com as Services para buscar, salvar, atualizar e excluir dados e decidem qual tela irá exibir.
-        * AdministradorController: Controla a lógica dos Admins.
-        * ContentController: Gerencia o controle de rotas dos dashboards.
-        * MotoContoller: Controla a lógica das Motos.
-        * MotoqueiroController: Controla a lógica dos Motoqueiros.
-        * PatioController: Controla a lógica dos Patios.
-        * SecaoController: Controla a lógica das Seções.
-        * VagaController: Controla a lógica das Vagas.
+         * 📁 *api*: Controller separado exclusivamente para a api.
+              * *AutenticacaoAPIController*: Arquivo que faz a autneticação de usuários.
+              * *LogDiarioApiController*: Arquivo para controlar funções do log.
+              * *UsuarioAPIController*: Arquivo para controlar funções do usuário.
+        * *AdministradorController*: Controla a lógica dos Admins.
+        * *AuthApiController* : Controla a lógica do MVC.
+        * *ContentController*: Gerencia o controle de rotas dos dashboards.
+        * *InsightController*: Gerencia o controle de rotas dos insights.
+        * *LogDiarioController*: Gerencia o controle de rotas dos logs.
+        * *TestAiController*: Teste para ver se esta funcionando a api key.
+        * *UsuarioController*: Gerencia o controle de rotas dos usuários.
+    * 📁 *dtos*: Arquivos de DTOS para diversas funcionalidados.
     * 📁 *Exceptions*: Diretório reservado para exceções. 
     * 📁 *Models*: Responsáveis pela lógica de negócio. Cada arquivo aqui geralmente representa uma tabela do banco de dados.
-        * Administrador: Modelo para as operações relacionadas aos Administrador, classe filha do User.
-        * Endereco: Classe de endereço usada por uma API externa.
-        * Moto: Modelo para as operações relacionadas às Motos.
-        * Motoqueiros: Modelo para as operações relacionadas aos Motoqueiros.
-        * Patio: Modelo para as operações relacionadas aos Patios.
-        * Role: Enum para dar roles.
-        * Secao: Modelo para as operações relacionadas às Seções.
-        * StatusMoto: Enum para status das Motos.
-        * User: Modelo que gerencia os dados dos usuários (Motoqueiros e Admins).
-        * Vaga: Modelo para as operações relacionadas às Vagas.
-    
-    * 📁 *DTOS*: Classes DTOs para receber/passar dados;
+        * *Administrador*: Model para as operações relacionadas aos Administrador, classe filha do User.
+        * *Insight*: Model para as operações relacionadas aos Insights.
+        * *LogDiario*: Model para as operações relacionadas aos LosgDiarios.
+        * *Role*: ENUM para roles.
+        * *User*: Model para as operações relacionadas aos User, classe pai do Administrador e Usuario.
+        * *Usuario*: Model para as operações relacionadas aos Usuarios, classe filha do User.
+        * *VerificaCPF*: Model para fazer verificações de CPF.
     * 📁 *Repository*: Classes responsáveis pela conexão do banco de dados.
-    * 📁 *Security*: Classes que extendem configurações relacionadas com a segurança.
-        * CustomLoginSuccessHandler: Classe responsável pelo direcionamento entre dashboards dependendo da função.
-        * SecurityConfig: Classe responsável pelo gerenciamento de acessos pelas funções dos usuario. 
     * 📁 *Service*: Classes que tem contêm a lógica da aplicação, elas que fazem a ponte entre controllers e o resto da aplicação.
-
 * 📁 *resources/*: Pastas que complementam a aplicação.
-    * *db.migration*: Pasta que se localiza as migrações do FlyWay.
-    * *js*: Pasta de arquivos JavaScript.
     * *Static.css*: Arquivos de CSS.
     * *templates*: Pastas e diretórios que montam a View.
-* 🍃application.yml*: Configurações essenciais para o funcionamento do projeto (Credenciais do banco, configuração do FlyWay, configuração do MVC)
+* 🍃application.yml*: Configurações essenciais para o funcionamento do projeto (Credenciais e configurações dos recursos)
 
 Essa estrutura ajuda a manter o código organizado, onde cada parte tem um papel bem definido.
 
@@ -98,55 +102,45 @@ Siga os passos abaixo para executar o projeto na sua máquina.
 
 * 🐙 Git: Para clonar o repositório.
 
+* <img width="20" height="20" alt="image" src="https://github.com/user-attachments/assets/a4bce524-5d3f-4aed-bd8d-b0f34102b601" /> Docker: Para subir o rabbit, comando a baixo(só rodar no console):
+  
+   ```docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management```
+
+
 *Passos:*
 
 1.  *Clone o repositório:*
     bash
     git clone [https://github.com/LucasAlmeida-cmd/challenge-mottu.git
 
-2. Mudar a branch para a  ```mvc```
+2. Mudar a branch para a  ```main```
     
 
-3.  *Verifique as dependências do Maven:*
+3.  *Verifique as dependências do .yml:*
+
+      Na entrega vai ter o um arquivo chamado: *variaveis_ambiente*, nele é só pegar os valores e substituir pelos que estão em ${} com o mesmo nome. 
+
+4.  **Execute a aplicação:**
     
-    * Crie um novo banco de dados no seu PostgreSQL (ex: `challenge_mottu`).
-       * Navegue até o arquivo `src/main/resources/application.yml`.
-       * Configure as propriedades de conexão com o seu banco de dados local:
-           ```properties
-           spring:
-             datasource:
-               url: jdbc:postgresql://localhost:5432/challenge_mottu
-               username: seu_usuario_postgres
-               password: sua_senha_postgres
-           ```
-       * O **Flyway** cuidará de criar e atualizar as tabelas do banco de dados automaticamente quando a aplicação iniciar.
-4.  **Compile e instale as dependências com o Maven:**
-    ```bash
-    mvn clean install -DskipTests
-    ```
+      Aperto a seta verde para inicializar.
 
-5.  **Execute a aplicação:**
-    ```bash
-    mvn spring-boot:run
-    ```
-    *Alternativamente, você pode executar o arquivo JAR gerado no passo anterior:*
-    ```bash
-    java -jar target/challenge-mottu-0.0.1-SNAPSHOT.jar
-    ```
-
-6.  A aplicação estará disponível em `http://localhost:8080`.
+7.  A aplicação estará disponível em `http://localhost:8080`.
 
 ---
 
 ## 🤔 Como Utilizar:
 
-Se você quiser contribuir com este projeto, siga estas etapas:
+Para usar 100% do projeto recomendo rodar localmente. 
 
-1.  Faça login com email:'admin', senha:'admin'.
-2.  Dentro da aplicação(logado como admin) você poderá fazer várias inserções, atualizações e exclusões nas diferentes áreas.
-3.  Recomendo seguir essas inserções: Administrador>Motoqueiro>Pátios>Seções>Vagas>Motos.
-4.  Recomendo fazer pelo menos 2 inserções de cada.
-5.  Utilziar CPF válido para o Motoqueiro. Site para geração de CPF: [ neste link](https://www.4devs.com.br/gerador_de_cpf).
-6.  Existem alguns campos que são unicos.
-7.  Para uma demonstração mais adequada assitir a esse [ video](https://www.youtube.com/watch?v=0XtMN1We-Dw).
+1.  Faça um cadastro com email valido.
+2.  Faça login com as credenciais que voce colocou.
+3.  Dentro da aplicação faça alguns logs diarios.
+5.  Gere um insight.
+6.  Utilziar CPF válido. Site para geração de CPF: [ neste link](https://www.4devs.com.br/gerador_de_cpf).
+7.  Existem alguns campos que são unicos.
+
+# Links: 
+
+1. Deploy: https://gs-java-0em0.onrender.com
+2. Link de apresentação: 
 
