@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZenLog | Apresentação</title>
+    <style>
+        /* Cores fiéis ao seu código Next.js */
+        :root {
+            --bg-slate-900: #0f172a;
+            --bg-slate-800: #1e293b;
+            --text-slate-50: #f8fafc;
+            --text-slate-300: #cbd5e1;
+            --text-slate-400: #94a3b8;
+            --blue-500: #3b82f6;
+            --blue-600: #2563eb;
+        }
+
+        body {
+            background-color: var(--bg-slate-900);
+            color: var(--text-slate-50);
+            font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 90%;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        h1 { font-size: 3rem; font-weight: 800; margin-bottom: 1rem; }
+        .highlight { color: var(--blue-500); }
+
+        .description {
+            font-size: 1.25rem;
+            color: var(--text-slate-400);
+            max-width: 700px;
+            margin: 0 auto 3rem auto;
+            line-height: 1.6;
+        }
+
+        /* Seções de GIF conforme seu desenho */
+        .section-card {
+            background-color: var(--bg-slate-800);
+            border: 1px solid #334155;
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.1);
+        }
+
+        .tag {
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--blue-500);
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .gif-container {
+            width: 100%;
+            background: linear-gradient(to bottom right, #1e293b, #0f172a);
+            border-radius: 1rem;
+            margin: 1.5rem 0;
+            overflow: hidden;
+            border: 1px solid #334155;
+        }
+
+        .gif-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background-color: var(--blue-600);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--blue-500);
+            transform: translateY(-2px);
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 2rem;
+            color: var(--text-slate-400);
+            font-size: 0.875rem;
+            border-top: 1px solid #1e293b;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <span class="tag">Projeto em Destaque</span>
+    <h1>Conheça o <span class="highlight">ZenLog</span></h1>
+    <p class="description">
+        Uma plataforma de bem-estar corporativo desenvolvida para transformar a saúde mental das equipes em dados acionáveis.
+    </p>
+
+    <div class="section-card">
+        <span class="tag">Conceito</span>
+        <h2>Como funciona?</h2>
+        <div class="gif-container">
+            <img th:src="@{/images/explicacao.gif}" alt="GIF de Explicação do Sistema">
+        </div>
+        <p style="color: var(--text-slate-400)">
+            O colaborador registra seu humor e hábitos. O sistema processa esses dados para gerar insights sobre o clima organizacional.
+        </p>
+    </div>
+
+    <div class="section-card">
+        <span class="tag">Demo</span>
+        <h2>A Aplicação Real</h2>
+        <div class="gif-container">
+            <img th:src="@{/images/aplicacao.gif}" alt="GIF da Aplicação em funcionamento">
+        </div>
+        <p style="color: var(--text-slate-400); margin-bottom: 2rem;">
+            Interface limpa, responsiva e focada na experiência do usuário.
+        </p>
+
+        <a th:href="@{/login}" class="btn-primary">Acessar Sistema Agora</a>
+    </div>
+</div>
+
+<footer>
+    © <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}"></span>
+    Lucas Almeida • ZenLog Project
+</footer>
+
+</body>
+</html>

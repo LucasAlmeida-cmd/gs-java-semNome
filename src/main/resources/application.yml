@@ -1,98 +1,61 @@
 # ===================================
-# CONFIGURAÇÃO PADRÃO (COMUM A TODOS)
+# CONFIGURAÇÃO PADRÃO
 # ===================================
 server:
+  port: 8081
   error:
     include-message: always
-    include-binding-errors: always
 
 spring:
   profiles:
-    default: local
+    active: prod # Força o perfil de produção no servidor
 
-  mvc:
-    hiddenmethod:
-      filter:
-        enabled: true
-
-  flyway:
-    enabled: true
-    locations: classpath:db/migration
-    baseline-on-migrate: true
+  thymeleaf:
+    cache: true # Em produção o cache ajuda na performance
 
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update # Cria as tabelas no Postgres automaticamente
+    show-sql: false
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.OracleDialect
-        format_sql: true
-    show-sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: zenlogoficial@gmail.com
-    password: ${GM_PASS_KEY}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-
-  ai:
-    openai:
-      api-key: ${GPT_PASS_KEY}
-      model: gpt-3.5-turbo
-
-
-
-
-api:
-  security:
-    token:
-      secret: ${SECRET_SPRING_SECURITY}
-
+# ===================================
+# PERFIL PRODUÇÃO (PARA A VPS)
+# ===================================
 ---
-# ===================================
-# PERFIL LOCAL (para rodar na sua máquina)
-# ===================================
-spring:
-  config:
-    activate:
-      on-profile: local
-
-  datasource:
-    url: jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL
-    username: ${ORACLE_USER_KEY}
-    password: ${ORACLE_PASS_KEY}
-
-#    comando para subir docker
-#    docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
-
----
-# ===================================
-# PERFIL PRODUÇÃO (para o DEPLOY)
-# ===================================
-
 spring:
   config:
     activate:
       on-profile: prod
 
-
   datasource:
-    url: jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL
-    username: ${ORACLE_USER_KEY}
-    password: ${ORACLE_PASS_KEY}
+    url: jdbc:postgresql://localhost:5432/portfolio_zenlog_db
+    username: portfolio_lucasalmeida
+    password: Lucas2002--
 
-
+  # Desativando RabbitMQ para não dar erro no boot
   rabbitmq:
-    addresses: ${RABBITMQ_URL}
-    queue: email.notification.queue
+    listener:
+      type: simple
+      direct:
+        enabled: false
+
+  # Se você não for usar a IA agora, pode deixar em branco
+  # ou remover o Service que a chama no código Java.
+  ai:
+    openai:
+      enabled: false
+
+api:
+  security:
+    token:
+      secret: ${SECRET_SPRING_SECURITY:uma_senha_padrao_para_nao_dar_erro}
+
+      spring:
+        autoconfigure:
+          exclude:
+            - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+            - org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration
+            - org.springframework.ai.autoconfigure.openai.OpenAiAutoConfiguration

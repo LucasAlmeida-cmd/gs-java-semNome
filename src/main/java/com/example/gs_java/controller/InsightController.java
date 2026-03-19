@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/insights")
 public class InsightController {
 
-    @Autowired
+    @Autowired(required = false)
     private InsightService insightService;
 
 

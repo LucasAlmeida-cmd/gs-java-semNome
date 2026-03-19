@@ -9,6 +9,7 @@ import com.example.gs_java.repository.LogDiarioRepository;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
+@Profile("!prod")
 public class InsightService {
 
     @Autowired

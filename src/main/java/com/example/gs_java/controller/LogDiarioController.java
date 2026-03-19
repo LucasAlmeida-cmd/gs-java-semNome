@@ -17,7 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/usuario")
 public class LogDiarioController {
 
-    @Autowired
+    @Autowired(required = false)
     private LogDiarioService logDiarioService;
 
     @GetMapping("/novo")
